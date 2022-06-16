@@ -65,7 +65,7 @@ def create_app():
             'questions': formatted_questions,
             'total_questions': len(Question.query.all()),
             'categories': join(formatted_categories),
-            'currentCategory': join(formatted_categories)
+            'current_category': join(formatted_categories)
         })
 
 
@@ -80,11 +80,9 @@ def create_app():
             else:
                 question.delete()
                 questions = Question.query.order_by(Question.id).all()
-                formatted_questions = paginate(request, questions)
                 return jsonify({
                     'success': True,
                     'deleted': question_id,
-                    'question': formatted_questions,
                     'total_questions': len(Question.query.all())
                 })
         except:
@@ -102,7 +100,9 @@ def create_app():
         search = body.get('searchTerm', None)
 
         try:
-            if search:
+            if question is None or answer is None or category is None:
+                abort(422)
+            elif search:
                 questions = Question.query.order_by(Question.id).filter(
                     Question.question.ilike("%{}%".format(search))
                 )
@@ -116,12 +116,7 @@ def create_app():
             else:
                 question = Question(question=question, answer=answer, category=category, difficulty=difficulty)
                 question.insert()
-                return jsonify({
-                    'success': True,
-                    'created': question.id,
-                    'question': question.format(),
-                    'total_questions': len(Question.query.all())
-                })
+                return None
         except:
             abort(422)
 

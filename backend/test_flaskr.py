@@ -18,6 +18,7 @@ class TriviaTestCase(unittest.TestCase):
         setup_db(self.app, self.database_path)
 
         self.new_question = {"question": "What is my name?", "answer": "Neil Gaiman", "category": 5, "difficulty": 4}
+        self.new_question_fail = {"question": None, "answer": None, "category": None, "difficulty": 4}
         self.new_quiz = {"previous_questions": [], "quiz_category": {'id': 1, 'type': 'Science'}}
         self.new_quiz_fail = {"previous_questions": [], "quiz_category": {'id': 7, 'type': 'Fake'}}
 
@@ -73,7 +74,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertEqual(data["deleted"], 27)
         self.assertTrue(data["total_questions"])
-        self.assertTrue(len(data["question"]))
 
     def test_404_if_book_does_not_exist(self):
         res = self.client().delete("/books/23445")
@@ -92,6 +92,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data["created"])
         self.assertTrue(len(data["question"]))
         self.assertTrue(data["total_questions"])
+
+    def test_422_create_new_question_failure(self):
+        res = self.client().post("/questions", json=self.new_question_fail)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data["message"], "Not processable")
 
     def test_get_category_questions(self):
         res = self.client().get("/categories/2/questions")
@@ -137,7 +145,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["total_questions"], 1)
 
     def test_search_without_results(self):
-        res = self.client().post("/questions", json={"searchTerm": "Jailer man"})
+        res = self.client().post("/questions", json={"searchTerm": "Jailerman"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
