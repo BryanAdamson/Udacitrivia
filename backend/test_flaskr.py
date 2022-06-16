@@ -56,7 +56,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data["total_questions"])
         self.assertTrue(len(data["questions"]))
         self.assertTrue(len(data["categories"]))
-        self.assertTrue(len(data["currentCategory"]))
+        self.assertTrue(len(data["current_category"]))
 
     def test_400_get_beyond_valid_page_of_questions(self):
         res = self.client().get("/questions?page=1000")
@@ -90,8 +90,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
         self.assertTrue(data["created"])
-        self.assertTrue(len(data["question"]))
-        self.assertTrue(data["total_questions"])
 
     def test_422_create_new_question_failure(self):
         res = self.client().post("/questions", json=self.new_question_fail)

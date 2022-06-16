@@ -242,7 +242,13 @@ of all questions, omitting the deleted question.
     'category': 3,
   }
   ```
-- Returns: Does not return any new data
+- Returns: A success value and the id of the newly created question
+  ```
+  {
+     'success': True, 
+     'created': 100
+  }
+  ```
 
 #### POST '/questions'
 - Sends a post request in order to search for a specific question by search term 
@@ -264,7 +270,7 @@ of all questions, omitting the deleted question.
             'category': 5
         },
     ],
-    'totalQuestions': 100,
-    'currentCategory': 'Entertainment'
+    'total_questions': 100,
+    'current_category': 'Entertainment'
 }
 ```

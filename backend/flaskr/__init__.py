@@ -100,7 +100,7 @@ def create_app():
         search = body.get('searchTerm', None)
 
         try:
-            if question is None or answer is None or category is None:
+            if (question is None or answer is None or category is None) and search is None:
                 abort(422)
             elif search:
                 questions = Question.query.order_by(Question.id).filter(
@@ -116,7 +116,10 @@ def create_app():
             else:
                 question = Question(question=question, answer=answer, category=category, difficulty=difficulty)
                 question.insert()
-                return None
+                return jsonify({
+                    'success': True,
+                    'created': question.id,
+                })
         except:
             abort(422)
 
