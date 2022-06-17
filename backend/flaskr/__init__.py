@@ -3,7 +3,7 @@ from flask_cors import CORS
 import random
 from funcy import join
 
-from backend.models import setup_db, Question, Category
+from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
@@ -36,7 +36,6 @@ def create_app():
         )
         return response
 
-
     @app.route('/categories', methods=['GET'])
     def get_categories():
         categories = Category.query.order_by(Category.id).all()
@@ -48,7 +47,6 @@ def create_app():
             'categories': formatted_categories,
             'total_categories': len(Category.query.all())
         })
-
 
     @app.route('/questions', methods=['GET'])
     def get_questions():
@@ -68,7 +66,6 @@ def create_app():
             'current_category': join(formatted_categories)
         })
 
-
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     # @cross_origin
     def delete_question(question_id):
@@ -87,7 +84,6 @@ def create_app():
                 })
         except:
             abort(422)
-
 
     @app.route('/questions', methods=['POST'])
     def create_question():
@@ -123,7 +119,6 @@ def create_app():
         except:
             abort(422)
 
-
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_category_questions(category_id):
         questions = Question.query.filter(Question.category == category_id).all()
@@ -139,7 +134,6 @@ def create_app():
             'total_questions': len(formatted_questions),
             'current_category': category.format()
         })
-
 
     @app.route('/quizzes', methods=['POST'])
     def get_quizzes():
@@ -188,7 +182,6 @@ def create_app():
 
         except:
             abort(422)
-
 
     @app.errorhandler(404)
     def not_found(error):

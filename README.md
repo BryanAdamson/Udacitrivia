@@ -34,8 +34,9 @@ All required packages are included in the requirements file.
 
 To run the application run the following commands: 
 ```
-export FLASK_APP=flaskr
-export FLASK_ENV=development
+venv\Scripts\activate
+set FLASK_APP=flaskr
+set FLASK_ENV=development
 flask run
 ```
 

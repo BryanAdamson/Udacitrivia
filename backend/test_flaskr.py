@@ -2,8 +2,8 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 
-from backend.flaskr import create_app
-from backend.models import setup_db
+from flaskr import create_app
+from models import setup_db
 
 
 class TriviaTestCase(unittest.TestCase):
