@@ -37,7 +37,7 @@ To run the application run the following commands:
 venv\Scripts\activate
 set FLASK_APP=flaskr
 set FLASK_ENV=development
-flask run
+python -m flask run
 ```
 
 These commands put the application in development and directs
